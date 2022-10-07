@@ -12,13 +12,12 @@ import javax.persistence.*;
 public class BoardListEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String title;
-    @Column
-    private String username;
     @Column(nullable = false)
+    private String username;
+    @Column(length=30)
     private String text;
 
     public BoardListEntity(String title, String username, String text) {

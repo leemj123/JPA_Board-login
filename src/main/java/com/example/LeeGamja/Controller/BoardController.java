@@ -24,7 +24,7 @@ public class BoardController {
         return boardService.oneread(id);
     }
     @PostMapping("/create")
-    public BoardListEntity newboard(@RequestBody BoardListEntity boardListEntity){
+    public BoardListEntity createboard(@RequestBody BoardListEntity boardListEntity){
 
         return boardService.Createboard(boardListEntity);
     }
