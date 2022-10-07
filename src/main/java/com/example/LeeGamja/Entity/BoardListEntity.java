@@ -1,4 +1,4 @@
-package Entity;
+package com.example.LeeGamja.Entity;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,8 +1,8 @@
-package Controller;
+package com.example.LeeGamja.Controller;
 
 
-import Entity.BoardListEntity;
-import Service.BoardService;
+import com.example.LeeGamja.Entity.BoardListEntity;
+import com.example.LeeGamja.Service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

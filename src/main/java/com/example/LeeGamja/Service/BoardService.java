@@ -1,11 +1,10 @@
-package Service;
+package com.example.LeeGamja.Service;
 
-import Entity.BoardListEntity;
-import Repository.ContentsRepository;
+import com.example.LeeGamja.Entity.BoardListEntity;
+import com.example.LeeGamja.Repository.ContentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

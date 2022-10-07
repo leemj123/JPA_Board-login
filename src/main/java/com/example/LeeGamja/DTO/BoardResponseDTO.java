@@ -1,6 +1,6 @@
-package DTO;
+package com.example.LeeGamja.DTO;
 
-import Entity.BoardListEntity;
+import com.example.LeeGamja.Entity.BoardListEntity;
 import lombok.*;
 
 @AllArgsConstructor

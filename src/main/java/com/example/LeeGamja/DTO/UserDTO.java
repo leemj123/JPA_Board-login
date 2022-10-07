@@ -1,4 +1,4 @@
-package DTO;
+package com.example.LeeGamja.DTO;
 
 public class UserDTO {
     private String userName;
