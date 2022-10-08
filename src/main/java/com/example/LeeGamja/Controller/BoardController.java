@@ -20,18 +20,15 @@ public class BoardController {
         return boardService.readall(pageable);
     }
     @GetMapping("/oneread/{id}")// id 게시글 읽어오기
-    public ResponseEntity<BoardListEntity> onereadboard(@PathVariable Long id){
-        return boardService.oneread(id);
+    public ResponseEntity<BoardListEntity> onereadboard(@PathVariable Long id){return boardService.oneread(id);
     }
     @PostMapping("/create")
     public BoardListEntity createboard(@RequestBody BoardListEntity boardListEntity){
-
         return boardService.Createboard(boardListEntity);
     }
 
     @PostMapping("/updata/{id}")
     public ResponseEntity<BoardListEntity> updateboard(@PathVariable Long id, @RequestBody BoardListEntity boardListEntity){
-
         return boardService.Boardupdate(id, boardListEntity);
     }
 

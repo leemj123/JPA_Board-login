@@ -6,7 +6,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
 @Table(name = "Board")
 @Builder
 public class BoardListEntity {
@@ -21,8 +21,6 @@ public class BoardListEntity {
     private String text;
 
     public BoardListEntity(String title, String username, String text) {
-        this.title = title;
-        this.username = username;
-        this.text = text;
+        this.title = title; this.username = username; this.text = text;
     }
 }
