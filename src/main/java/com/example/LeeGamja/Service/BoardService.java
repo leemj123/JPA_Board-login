@@ -4,7 +4,6 @@ import com.example.LeeGamja.DTO.BoardDTO;
 import com.example.LeeGamja.Entity.BoardListEntity;
 import com.example.LeeGamja.Repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +25,7 @@ public class BoardService {
     public ResponseEntity oneread(Long id){
         BoardListEntity boardfind = contentsRepository.findById(id).orElseThrow(
                 ()->{throw new RuntimeException("해당 정보가 없습니다");});
+        System.out.println(contentsRepository.findById(id));
         return ResponseEntity.ok(boardfind);
     }
 
@@ -53,7 +53,8 @@ public class BoardService {
      /* boardListE.setTitle(targetEntity.getTitle());
       boardListE.setUsername(targetEntity.getUsername());
       boardListE.setText(targetEntity.getText());*/
-      BoardListEntity yes = contentsRepository.save(boardListE);
+      contentsRepository.save(boardListE);
+      System.out.println(contentsRepository.findById(id));
       return ResponseEntity.ok(boardListE); // 공부거리
     }
 
