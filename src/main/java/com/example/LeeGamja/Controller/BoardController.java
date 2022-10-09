@@ -1,6 +1,7 @@
 package com.example.LeeGamja.Controller;
 
 
+import com.example.LeeGamja.DTO.BoardDTO;
 import com.example.LeeGamja.Entity.BoardListEntity;
 import com.example.LeeGamja.Service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class BoardController {
         return boardService.Createboard(boardListEntity);
     }
 
-    @PostMapping("/updata/{id}")
-    public ResponseEntity<BoardListEntity> updateboard(@PathVariable Long id, @RequestBody BoardListEntity boardListEntity){
-        return boardService.Boardupdate(id, boardListEntity);
+    @PutMapping("/updata/{id}")
+    public ResponseEntity updateboard(@PathVariable Long id, @RequestBody BoardDTO.BoardRequestDto boardRequestDto){
+        return boardService.Boardupdate(id,boardRequestDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<BoardListEntity> deleteboard(@PathVariable Long id, @RequestBody BoardListEntity boardListEntity){
+    public ResponseEntity deleteboard(@PathVariable Long id){
         return boardService.Deleteboard(id);
     }
 

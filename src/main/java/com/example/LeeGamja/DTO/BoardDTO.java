@@ -1,29 +1,27 @@
 package com.example.LeeGamja.DTO;
 
-import com.example.LeeGamja.Entity.BoardListEntity;
 import lombok.*;
 
 
 public class BoardDTO {
-    @Getter @Setter
-    public static class Request{
-        private String title;
-        private String username;
-        private String text;
-    }
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Response{
+    public static class BoardRequestDto{
         private String title;
         private String username;
         private String text;
 
-        public BoardListEntity toEntity(){
+    }
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardResponseDto{
+        private String title;
+        private String username;
+        private String text;
 
-            return new BoardListEntity(this.title,this.username,this.text);
-        }
     }
 }
 

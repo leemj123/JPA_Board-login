@@ -20,7 +20,7 @@ public class BoardListEntity {
     @Column(length=30)
     private String text;
 
-    public BoardListEntity(String title, String username, String text) {
+    public void update(String title, String username, String text) {
         this.title = title; this.username = username; this.text = text;
     }
 }

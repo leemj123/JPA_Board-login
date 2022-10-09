@@ -38,24 +38,14 @@ public class BoardService {
         return contentsRepository.save(tempboardE);
     }
     @Transactional
-    public ResponseEntity Boardupdate(Long id, BoardListEntity boardListEntity){ // 수정
+    public ResponseEntity Boardupdate(Long id, BoardDTO.BoardRequestDto boardRequestDto){ // 수정
         // pk타입으로 꺼내서 넣을때는 예외처리안하면 오류발생!
-      BoardListEntity boardListE = contentsRepository.findById(id).orElseThrow(
-              () -> { throw new RuntimeException("해당 정보가 없습니다.");});
-        //받은 entity를 dto로 변환
-        BoardDTO.Response boardResponse = new BoardDTO.Response();
-        //빌더로 집어넣기
-        boardResponse.builder().title(boardListEntity.getTitle())
-                .username(boardListEntity.getUsername())
-                .text(boardListEntity.getText());
-        //dto를 entity 전환
-        boardListE = boardResponse.toEntity();
-     /* boardListE.setTitle(targetEntity.getTitle());
-      boardListE.setUsername(targetEntity.getUsername());
-      boardListE.setText(targetEntity.getText());*/
-      contentsRepository.save(boardListE);
-      System.out.println(contentsRepository.findById(id));
-      return ResponseEntity.ok(boardListE); // 공부거리
+       BoardListEntity boardListEntity = contentsRepository.findById(id).orElseThrow(() ->
+        {throw new RuntimeException("해당 정보가 없습니다");});
+       boardListEntity.update(boardRequestDto.getTitle()
+               ,boardRequestDto.getUsername()
+               ,boardRequestDto.getText());
+      return ResponseEntity.ok(contentsRepository.findById(id)); // 공부거리
     }
 
     @Transactional
@@ -63,6 +53,6 @@ public class BoardService {
         BoardListEntity boardListE = contentsRepository.findById(id).orElseThrow(()->
         {throw new RuntimeException("삭제 할 정보가 없습니다.");});
         contentsRepository.deleteById(id);
-        return ResponseEntity.ok(boardListE);
+        return ResponseEntity.ok(null);
     }
 }
