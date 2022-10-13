@@ -1,6 +1,6 @@
 package com.example.LeeGamja.Service;
 
-import com.example.LeeGamja.DTO.BoardDTO;
+import com.example.LeeGamja.DTO.BoardRequestDto;
 import com.example.LeeGamja.Entity.BoardListEntity;
 import com.example.LeeGamja.Repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ public class BoardService {
 
     @Transactional
     public Page<BoardListEntity> readall(Pageable pageable) { // 전체 불러오기
-        System.out.println(contentsRepository.findAll());
         return contentsRepository.findAll(pageable);
     }
     @Transactional
@@ -30,22 +29,22 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardListEntity Createboard (BoardListEntity boardListEntity) { //추가
-        BoardListEntity tempboardE = BoardListEntity.builder().title(boardListEntity.getTitle())
-                .username(boardListEntity.getUsername())//데이터 받아서 객체 생성할때 id가 만들어짐
-                .text(boardListEntity.getText())
-                .build();
-        return contentsRepository.save(tempboardE);
+    public String Createboard (BoardListEntity boardListEntity) { //추가
+        BoardListEntity targetboard = BoardListEntity.builder().title(boardListEntity.getTitle())
+        .username(boardListEntity.getUsername())//데이터 받아서 객체 생성할때 id가 만들어짐
+        .text(boardListEntity.getText())
+        .build();
+        return "작성완료";
     }
     @Transactional
-    public ResponseEntity Boardupdate(Long id, BoardDTO.BoardRequestDto boardRequestDto){ // 수정
+    public ResponseEntity Boardupdate(Long id, BoardRequestDto boardRequestDto){ // 수정
         // pk타입으로 꺼내서 넣을때는 예외처리안하면 오류발생!
        BoardListEntity boardListEntity = contentsRepository.findById(id).orElseThrow(() ->
         {throw new RuntimeException("해당 정보가 없습니다");});
        boardListEntity.update(boardRequestDto.getTitle()
                ,boardRequestDto.getUsername()
                ,boardRequestDto.getText());
-      return ResponseEntity.ok(contentsRepository.findById(id)); // 공부거리
+       return ResponseEntity.ok(contentsRepository.findById(id)); // 공부거리
     }
 
     @Transactional
@@ -53,6 +52,6 @@ public class BoardService {
         BoardListEntity boardListE = contentsRepository.findById(id).orElseThrow(()->
         {throw new RuntimeException("삭제 할 정보가 없습니다.");});
         contentsRepository.deleteById(id);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok("삭제완료");
     }
 }

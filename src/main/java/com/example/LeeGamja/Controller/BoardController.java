@@ -1,20 +1,20 @@
 package com.example.LeeGamja.Controller;
 
 
-import com.example.LeeGamja.DTO.BoardDTO;
+import com.example.LeeGamja.DTO.BoardRequestDto;
 import com.example.LeeGamja.Entity.BoardListEntity;
 import com.example.LeeGamja.Service.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-
+@RequiredArgsConstructor
 public class BoardController {
-    @Autowired
-    private BoardService boardService;
+    private final BoardService boardService;
 
     @GetMapping("/read") // 모두 읽어오기
     public Page<BoardListEntity> Mainboard(Pageable pageable){
@@ -24,12 +24,13 @@ public class BoardController {
     public ResponseEntity<BoardListEntity> onereadboard(@PathVariable Long id){return boardService.oneread(id);
     }
     @PostMapping("/create")
-    public BoardListEntity createboard(@RequestBody BoardListEntity boardListEntity){
+    public String createboard(@RequestBody BoardListEntity boardListEntity){
+
         return boardService.Createboard(boardListEntity);
     }
 
     @PutMapping("/updata/{id}")
-    public ResponseEntity updateboard(@PathVariable Long id, @RequestBody BoardDTO.BoardRequestDto boardRequestDto){
+    public ResponseEntity updateboard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto){
         return boardService.Boardupdate(id,boardRequestDto);
     }
 
