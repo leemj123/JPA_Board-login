@@ -34,6 +34,7 @@ public class BoardService {
         .username(boardListEntity.getUsername())//데이터 받아서 객체 생성할때 id가 만들어짐
         .text(boardListEntity.getText())
         .build();
+        contentsRepository.save(targetboard);
         return "작성완료";
     }
     @Transactional
@@ -44,12 +45,12 @@ public class BoardService {
        boardListEntity.update(boardRequestDto.getTitle()
                ,boardRequestDto.getUsername()
                ,boardRequestDto.getText());
-       return ResponseEntity.ok(contentsRepository.findById(id)); // 공부거리
+       return ResponseEntity.ok(contentsRepository.findById(id));
     }
 
     @Transactional
     public ResponseEntity Deleteboard(Long id){// 삭제
-        BoardListEntity boardListE = contentsRepository.findById(id).orElseThrow(()->
+        BoardListEntity Temp= contentsRepository.findById(id).orElseThrow(()->
         {throw new RuntimeException("삭제 할 정보가 없습니다.");});
         contentsRepository.deleteById(id);
         return ResponseEntity.ok("삭제완료");
