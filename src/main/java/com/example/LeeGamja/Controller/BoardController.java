@@ -21,7 +21,8 @@ public class BoardController {
         return boardService.readall(pageable);
     }
     @GetMapping("/oneread/{id}")// id 게시글 읽어오기
-    public ResponseEntity<BoardListEntity> onereadboard(@PathVariable Long id){return boardService.oneread(id);
+    public ResponseEntity<BoardListEntity> onereadboard(@CookieValue(value = "userName",required = true)
+                                                            @PathVariable Long id){return boardService.oneread(id);
     }
     @PostMapping("/create")
     public String createboard(@RequestBody BoardListEntity boardListEntity){
