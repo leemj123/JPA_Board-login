@@ -59,9 +59,6 @@ public class LoginService {
         //Cookie를 Response
         response.addCookie(cookie);
         log.info(cookie.getValue());
-       /* //세션 로그인 성공 처리
-        HttpServletRequest request;
-        HttpSession session = request.getSession(); // 세션이 있으면 세션 반환, 없으면 신규 세션을 생성하여 반환*/
 
         return cookie.getValue();
     }
