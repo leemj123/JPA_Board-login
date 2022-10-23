@@ -1,15 +1,14 @@
-package com.example.LeeGamja.Service;
+package com.example.LeeGamja.service;
 
-import com.example.LeeGamja.DTO.BoardRequestDto;
-import com.example.LeeGamja.Entity.BoardListEntity;
-import com.example.LeeGamja.Repository.ContentsRepository;
+import com.example.LeeGamja.dto.BoardRequestDto;
+import com.example.LeeGamja.entity.BoardListEntity;
+import com.example.LeeGamja.repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CookieValue;
 
 @Service
 @RequiredArgsConstructor

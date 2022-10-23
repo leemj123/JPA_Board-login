@@ -1,4 +1,4 @@
-package com.example.LeeGamja.DTO;
+package com.example.LeeGamja.dto;
 
 import lombok.*;
 

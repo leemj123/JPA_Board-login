@@ -1,6 +1,6 @@
-package com.example.LeeGamja.DTO;
+package com.example.LeeGamja.dto;
 
-import com.example.LeeGamja.Entity.UserEntity;
+import com.example.LeeGamja.entity.UserEntity;
 import lombok.Getter;
 
 @Getter

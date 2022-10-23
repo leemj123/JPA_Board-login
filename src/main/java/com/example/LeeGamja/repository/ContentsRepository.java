@@ -1,6 +1,6 @@
-package com.example.LeeGamja.Repository;
+package com.example.LeeGamja.repository;
 
-import com.example.LeeGamja.Entity.BoardListEntity;
+import com.example.LeeGamja.entity.BoardListEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ContentsRepository extends JpaRepository<BoardListEntity, Long> {

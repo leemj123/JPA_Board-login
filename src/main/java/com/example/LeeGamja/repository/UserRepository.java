@@ -1,6 +1,6 @@
-package com.example.LeeGamja.Repository;
+package com.example.LeeGamja.repository;
 
-import com.example.LeeGamja.Entity.UserEntity;
+import com.example.LeeGamja.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {

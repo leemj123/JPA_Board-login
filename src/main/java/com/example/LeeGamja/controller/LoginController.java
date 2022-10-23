@@ -1,35 +1,31 @@
-package com.example.LeeGamja.Controller;
+package com.example.LeeGamja.controller;
 
-import com.example.LeeGamja.DTO.LoginRequsetDto;
-import com.example.LeeGamja.DTO.UserRequestDto;
-import com.example.LeeGamja.Entity.UserEntity;
-import com.example.LeeGamja.Repository.UserRepository;
-import com.example.LeeGamja.Service.LoginService;
+import com.example.LeeGamja.dto.LoginRequsetDto;
+import com.example.LeeGamja.dto.UserRequestDto;
+import com.example.LeeGamja.entity.UserEntity;
+import com.example.LeeGamja.repository.UserRepository;
+import com.example.LeeGamja.service.LoginService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession; //세션 인터페이스
 
 @RestController
-@Slf4j
 @RequiredArgsConstructor
 public class LoginController {
     private final LoginService loginService;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @PostMapping("/login")
     public String login(@RequestBody LoginRequsetDto loginRequsetDto,
                         HttpServletResponse response){
-        log.info(loginRequsetDto.getUserId());
-        if (!(userRepository.existsByUserId(loginRequsetDto.getUserId()))) {
+        UserEntity userEntity = userRepository.findByUserId(loginRequsetDto.getUserId());
+        if (userEntity == null) {
             throw new RuntimeException("해당 계정이 없습니다.");
         }
-        UserEntity userEntity = userRepository.findByUserId(loginRequsetDto.getUserId());
-
-        if ( !(loginRequsetDto.getUserPw()).equals(userEntity.getUserPw()) ) {
+        if ( !passwordEncoder.matches(loginRequsetDto.getUserPw(),userEntity.getUserPw()) ) {
             throw new RuntimeException("비밃번호가 맞지 않습니다.");
         }
 

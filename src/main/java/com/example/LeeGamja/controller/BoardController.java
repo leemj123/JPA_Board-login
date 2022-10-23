@@ -1,9 +1,9 @@
-package com.example.LeeGamja.Controller;
+package com.example.LeeGamja.controller;
 
 
-import com.example.LeeGamja.DTO.BoardRequestDto;
-import com.example.LeeGamja.Entity.BoardListEntity;
-import com.example.LeeGamja.Service.BoardService;
+import com.example.LeeGamja.dto.BoardRequestDto;
+import com.example.LeeGamja.entity.BoardListEntity;
+import com.example.LeeGamja.service.BoardService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
