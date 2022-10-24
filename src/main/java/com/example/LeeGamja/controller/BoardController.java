@@ -17,7 +17,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/read") // 모두 읽어오기
-    public Page<BoardListEntity> Mainboard(Pageable pageable){
+    public Page<BoardListEntity> Mainboard(@CookieValue(value = "userName",required = false) Pageable pageable){
         return boardService.readall(pageable);
     }
     @GetMapping("/oneread/{id}")// id 게시글 읽어오기
@@ -25,18 +25,20 @@ public class BoardController {
                                                             @PathVariable Long id){return boardService.oneread(id);
     }
     @PostMapping("/create")
-    public String createboard(@RequestBody BoardListEntity boardListEntity){
+    public String createboard(@CookieValue(value = "userName",required = true) @RequestBody BoardListEntity boardListEntity){
 
         return boardService.Createboard(boardListEntity);
     }
 
     @PutMapping("/updata/{id}")
-    public ResponseEntity updateboard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto){
+    public ResponseEntity updateboard(@CookieValue(value = "userName",required = true)
+                                          @PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto){
         return boardService.Boardupdate(id,boardRequestDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteboard(@PathVariable Long id){
+    public ResponseEntity deleteboard(@CookieValue(value = "userName",required = true)
+                                          @PathVariable Long id){
         return boardService.Deleteboard(id);
     }
 
