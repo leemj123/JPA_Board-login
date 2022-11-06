@@ -1,4 +1,4 @@
-package com.example.LeeGamja.dto;
+package com.example.LeeGamja.dto.boardDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.LeeGamja.dto;
+package com.example.LeeGamja.dto.userDto;
 
 import com.example.LeeGamja.entity.UserEntity;
 import com.example.LeeGamja.enumcustom.UserRole;

@@ -1,6 +1,6 @@
 package com.example.LeeGamja.service;
 
-import com.example.LeeGamja.dto.UserRequestDto;
+import com.example.LeeGamja.dto.userDto.UserRequestDto;
 import com.example.LeeGamja.entity.UserEntity;
 import com.example.LeeGamja.enumcustom.UserRole;
 import com.example.LeeGamja.repository.UserRepository;
@@ -13,20 +13,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class LoginService {
     private final UserRepository userRepository;
-    private final Map<String,Object> sessionBox = new HashMap<>();
+    public static final Map<String,String> sessionBox = new HashMap<>();
 
     private final PasswordEncoder passwordEncoder;
 
     public String loginv2(String userName, HttpServletResponse response){ // 세션쿠키로그인
         //세션 난수화
-        String session = UUID.randomUUID().toString();
+        String session = userName;
         sessionBox.put(session,userName);
         //cookie
         Cookie cookie = new Cookie("userName",session);
@@ -44,7 +43,6 @@ public class LoginService {
         String encodedPassEncoder = passwordEncoder.encode(userRequestDto.getUserPw());
         userRequestDto.setUserPw(encodedPassEncoder);
 
-        log.info(userRequestDto.getUserId());
         //역할 부여
         userRequestDto.setUserRole(UserRole.USER);
 

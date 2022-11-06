@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,7 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {//
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         //cors -> Cross-Origin Resource Sharing
-        httpSecurity.cors().disable()
+        httpSecurity
+                .cors().disable()
                 .csrf().disable()
                 //Cross-Site Request Forgery 이용자가 의도하지 않은 요청을 통한 공격
                 //인터넷 사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위(등록,수정,삭제)를 특정 웹사이트에 요청하도록 만드는 공격
@@ -37,5 +39,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {//
                 //iframe(화면 분할 관련)설정인데 쓸 이유가 없으니 disable
                 //현재 여러 브라우저가 iframe에 대한 지원이 끊어지고있다.
                 //에러가 날때는 disable 대신에 sameOrifin()을 달아주면 된다.
+        httpSecurity.sessionManagement(
+                s->s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        //항상 세션을 생성하겠다.
+                        .sessionFixation(sf->sf.changeSessionId())
+                        //인증할때마다 새로운 세션아이디를 발급하겠다.
+                        .maximumSessions(1)
+                        //하나의 계정으로 접속시 세션은 하나만 발급하겠다
+                        //-1은 무한 동시접속 가능
+                        .maxSessionsPreventsLogin(true)
+                        //동일 계정으로 로그인 시도시 기존의 세션을 만료시키고 새로 만들어서 로그인시킨다.
+                        //.expiredUrl()
+        );
     }
 }

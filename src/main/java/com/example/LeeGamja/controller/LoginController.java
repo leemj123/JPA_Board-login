@@ -1,7 +1,7 @@
 package com.example.LeeGamja.controller;
 
 import com.example.LeeGamja.dto.LoginRequsetDto;
-import com.example.LeeGamja.dto.UserRequestDto;
+import com.example.LeeGamja.dto.userDto.UserRequestDto;
 import com.example.LeeGamja.entity.UserEntity;
 import com.example.LeeGamja.repository.UserRepository;
 import com.example.LeeGamja.service.LoginService;
