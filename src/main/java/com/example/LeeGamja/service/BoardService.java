@@ -36,11 +36,11 @@ public class BoardService {
         return boardRepository.findByUserEntity(userEntity);
     }
     @Transactional
-    public ResponseEntity oneread(Long id){
-        BoardListEntity boardfind = boardRepository.findById(id).orElseThrow(
+    public BoardListEntity oneread(Long id){
+        BoardListEntity boardListEntity = boardRepository.findById(id).orElseThrow(
                 ()->{throw new RuntimeException("해당 정보가 없습니다");});
 
-        return ResponseEntity.ok(boardfind);
+        return boardListEntity;
     }
 
     @Transactional
@@ -58,23 +58,32 @@ public class BoardService {
         return "작성완료";
     }
     @Transactional
-    public String Boardupdate(Long id, BoardRequestDto boardRequestDto){ // 수정
+    public String Boardupdate(String userName, Long id, BoardRequestDto boardRequestDto){ // 수정
         // pk타입으로 꺼내서 넣을때는 예외처리안하면 오류발생!
-       BoardListEntity boardListEntity = boardRepository.findById(id).orElseThrow(() ->
+        BoardListEntity boardListEntity = boardRepository.findById(id).orElseThrow(() ->
         {throw new RuntimeException("해당 정보가 없습니다");});
 
-       if(boardRequestDto.getUserName() != boardListEntity.getUsername()){return "접근 권한이 없습니다.";}
+        String user =LoginService.sessionBox.get(userName);
 
-       boardListEntity.transfer(boardRequestDto);
-       boardRepository.save(boardListEntity);
+        if(!user.equals(boardListEntity.getUsername())){
+            return "글 작성자만 수정할 수 있습니다.";
+        }
+        boardRequestDto.setUserEntity(boardListEntity.getUserEntity());
+        boardRequestDto.setCommentEntity(boardListEntity.getCommentEntity());
+        boardListEntity.transfer(boardRequestDto);
+        boardRepository.save(boardListEntity);
        return "수정 완료";
     }
 
     @Transactional
-    public ResponseEntity Deleteboard(Long id){// 삭제
-        BoardListEntity Temp= boardRepository.findById(id).orElseThrow(()->
-        {throw new RuntimeException("삭제 할 정보가 없습니다.");});
+    public String Deleteboard(String userName, Long id){// 삭제
+        BoardListEntity boardListEntity= boardRepository.findById(id).orElseThrow(()-> {throw new RuntimeException("삭제 할 정보가 없습니다.");});
+
+        String user = LoginService.sessionBox.get(userName);
+        if(!user.equals(boardListEntity.getUsername())){
+            return "글 작성자만 수정할 수 있습니다.";
+        }
         boardRepository.deleteById(id);
-        return ResponseEntity.ok("삭제완료");
+        return "삭제완료";
     }
 }

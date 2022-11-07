@@ -36,7 +36,7 @@ public class LoginController {
     public String signUp(@RequestBody UserRequestDto userRequestDto){
         return loginService.signUp(userRequestDto);}
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(@CookieValue(value = "userName",required = true)Cookie userName,
                          HttpServletResponse response){
         if(userName == null){

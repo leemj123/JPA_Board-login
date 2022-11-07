@@ -8,11 +8,4 @@ public class CommentResponseDto {
     private BoardListEntity boardListEntity;
     private String userName;
     private String text;
-
-    public CommentResponseDto(CommentEntity commentEntity){
-        this.id = commentEntity.getId();
-        this.boardListEntity = commentEntity.getBoardListEntity();
-        this.userName = commentEntity.getUserName();
-        this.text = commentEntity.getText();
-    }
 }

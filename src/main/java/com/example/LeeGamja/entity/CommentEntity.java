@@ -22,5 +22,8 @@ public class CommentEntity {
     @Column
     private String text;
 
-
+    public void transfer(CommentRequestDto commentRequestDto){
+        this.userName = commentRequestDto.getUserName();
+        this.text = commentRequestDto.getText();
+    }
 }
