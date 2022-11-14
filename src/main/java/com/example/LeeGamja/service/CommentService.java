@@ -29,7 +29,7 @@ public class CommentService {
         log.info(commentEntity.getText());
         commentRepository.save(commentEntity);
 
-        boardListEntity.addComment(commentEntity);
+        //boardListEntity.addComment(commentEntity);
         return "완료";
     }
 }

@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {//
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         //cors -> Cross-Origin Resource Sharing
         httpSecurity
-                .cors().disable()
+                //.cors().disable()  //allowedOrigins 설정과 겹친다.
                 .csrf().disable()
                 //Cross-Site Request Forgery 이용자가 의도하지 않은 요청을 통한 공격
                 //인터넷 사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위(등록,수정,삭제)를 특정 웹사이트에 요청하도록 만드는 공격

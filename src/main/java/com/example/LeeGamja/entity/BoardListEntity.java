@@ -40,7 +40,8 @@ public class BoardListEntity {
         this.username = boardRequestDto.getUserName();
         this.text = boardRequestDto.getText();
     }
+    /*
     public void addComment(CommentEntity commentEntity){
         this.commentEntity.add(commentEntity);
-    }
+    }*/
 }

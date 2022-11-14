@@ -6,12 +6,11 @@ import com.example.LeeGamja.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardResponseDto {
@@ -19,12 +18,16 @@ public class BoardResponseDto {
         private String username;
         private String text;
         private UserEntity userEntity;
-        private List<CommentEntity> commentEntity;
         public BoardResponseDto(BoardListEntity boardListEntity){
                 this.title = boardListEntity.getTitle();
                 this.username = boardListEntity.getUsername();
                 this.text = boardListEntity.getText();
                 this.userEntity = boardListEntity.getUserEntity();
-                this.commentEntity = boardListEntity.getCommentEntity();
         }
+        /*public List<BoardResponseDto> listResponse(List<BoardListEntity> boardListEntitie){
+                for(int i =0 ; i<boardListEntitie.size();i++){
+                        listResponse().add(i, boardListEntitie.get(i));
+                }
+        }*/
+
 }

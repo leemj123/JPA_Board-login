@@ -3,6 +3,7 @@ package com.example.LeeGamja.controller;
 import com.example.LeeGamja.dto.LoginRequsetDto;
 import com.example.LeeGamja.dto.userDto.UserRequestDto;
 import com.example.LeeGamja.entity.UserEntity;
+import com.example.LeeGamja.error.exception.UnAuthorizedException;
 import com.example.LeeGamja.repository.UserRepository;
 import com.example.LeeGamja.service.LoginService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.example.LeeGamja.error.ErrorCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,24 +26,24 @@ public class LoginController {
                         HttpServletResponse response){
         UserEntity userEntity = userRepository.findByUserId(loginRequsetDto.getUserId());
         if (userEntity == null) {
-            throw new RuntimeException("해당 계정이 없습니다.");
+            throw new UnAuthorizedException(NONEXISTENT_EXCEPTION,"E0012");
         }
         if ( !passwordEncoder.matches(loginRequsetDto.getUserPw(),userEntity.getUserPw()) ) {
-            throw new RuntimeException("비밃번호가 맞지 않습니다.");
+            throw new UnAuthorizedException(NOT_APPLICABLE_EXCEPTION,"E0013");
         }
 
-        return loginService.loginv2(userEntity.getUserName(), response);
+        return loginService.login(userEntity.getUserName(), response);
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody UserRequestDto userRequestDto){
-        return loginService.signUp(userRequestDto);}
+    public void signUp(@RequestBody UserRequestDto userRequestDto){
+        loginService.signUp(userRequestDto);}
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(@CookieValue(value = "userName",required = true)Cookie userName,
                          HttpServletResponse response){
         if(userName == null){
-            return "로그인이 되어있지 않습니다";
+            throw new UnAuthorizedException(ACCESS_DENIED_EXCEPTION,"E0010");
         }
         //쿠키 삭제
         //널인 쿠키를 만들어서

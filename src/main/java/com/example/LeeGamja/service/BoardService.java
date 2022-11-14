@@ -1,20 +1,23 @@
 package com.example.LeeGamja.service;
 
 import com.example.LeeGamja.dto.boardDto.BoardRequestDto;
+import com.example.LeeGamja.dto.boardDto.BoardResponseDto;
 import com.example.LeeGamja.entity.BoardListEntity;
 import com.example.LeeGamja.entity.UserEntity;
+import com.example.LeeGamja.error.exception.ForbiddenException;
+import com.example.LeeGamja.error.exception.NotFoundException;
+import com.example.LeeGamja.error.exception.UnAuthorizedException;
 import com.example.LeeGamja.repository.BoardRepository;
 import com.example.LeeGamja.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.LeeGamja.error.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -25,29 +28,34 @@ public class BoardService {
     private final UserRepository userRepository;
 
     @Transactional
-    public List<BoardListEntity> readAll() { // 전체 불러오기
-        return boardRepository.findAll();
+    public List<BoardResponseDto> readAll() { // 전체 불러오기
+        List<BoardListEntity> boardListEntities = boardRepository.findAll();
+        List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
+
+        //List<BoardResponseDto> boardResponseDtoList = new List<>(List.of(boardListEntities));
+        return boardResponseDtos;
     }
 
     @Transactional
     public List<BoardListEntity> myReadAll(String user) { // 전체 불러오기
         UserEntity userEntity = userRepository.findByUserName(user);
-        log.info("마이리드올 "+userEntity.getUserId());
+        //접근권한 확인
+        if(userEntity ==null){throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");}
         return boardRepository.findByUserEntity(userEntity);
     }
     @Transactional
-    public BoardListEntity oneread(Long id){
+    public BoardListEntity oneRead(Long id){
         BoardListEntity boardListEntity = boardRepository.findById(id).orElseThrow(
-                ()->{throw new RuntimeException("해당 정보가 없습니다");});
+                ()->{throw new NotFoundException(NONEXISTENT_BOARD_EXCEPTION,"E0041");});
 
         return boardListEntity;
     }
 
     @Transactional
-    public String Createboard (String user, BoardRequestDto boardRequestDto) { //추가
-        log.info("만들기전에 이름 "+user);
+    public String createBoard (String user, BoardRequestDto boardRequestDto) { //추가
+
         UserEntity userEntity = userRepository.findByUserName(user);
-        log.info("만들기 "+userEntity.getUserId());
+
         boardRequestDto.setUserName(userEntity.getUserName());
 
         boardRequestDto.setUserEntity(userEntity);
@@ -58,15 +66,13 @@ public class BoardService {
         return "작성완료";
     }
     @Transactional
-    public String Boardupdate(String userName, Long id, BoardRequestDto boardRequestDto){ // 수정
+    public String boardUpdate(BoardRequestDto boardRequestDto){ // 수정
         // pk타입으로 꺼내서 넣을때는 예외처리안하면 오류발생!
-        BoardListEntity boardListEntity = boardRepository.findById(id).orElseThrow(() ->
-        {throw new RuntimeException("해당 정보가 없습니다");});
+        BoardListEntity boardListEntity = boardRepository.findById(boardRequestDto.getId()).orElseThrow(() ->
+        {throw new NotFoundException(NONEXISTENT_BOARD_EXCEPTION,"E0041");});
 
-        String user =LoginService.sessionBox.get(userName);
-
-        if(!user.equals(boardListEntity.getUsername())){
-            return "글 작성자만 수정할 수 있습니다.";
+        if(!(boardRequestDto.getUserName()).equals(boardListEntity.getUsername())){
+            throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");
         }
         boardRequestDto.setUserEntity(boardListEntity.getUserEntity());
         boardRequestDto.setCommentEntity(boardListEntity.getCommentEntity());
@@ -76,12 +82,13 @@ public class BoardService {
     }
 
     @Transactional
-    public String Deleteboard(String userName, Long id){// 삭제
-        BoardListEntity boardListEntity= boardRepository.findById(id).orElseThrow(()-> {throw new RuntimeException("삭제 할 정보가 없습니다.");});
+    public String deleteBoard(String userName, Long id){// 삭제
+        BoardListEntity boardListEntity= boardRepository.findById(id).
+                orElseThrow(()-> {throw new NotFoundException(NONEXISTENT_BOARD_EXCEPTION,"E0041");});
 
         String user = LoginService.sessionBox.get(userName);
         if(!user.equals(boardListEntity.getUsername())){
-            return "글 작성자만 수정할 수 있습니다.";
+            throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");
         }
         boardRepository.deleteById(id);
         return "삭제완료";
