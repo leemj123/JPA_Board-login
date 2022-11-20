@@ -1,3 +1,4 @@
+/*
 package com.example.LeeGamja.dto.commentDto;
 
 import com.example.LeeGamja.entity.BoardListEntity;
@@ -9,3 +10,4 @@ public class CommentResponseDto {
     private String userName;
     private String text;
 }
+*/

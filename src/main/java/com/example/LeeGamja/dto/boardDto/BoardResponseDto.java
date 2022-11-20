@@ -1,7 +1,6 @@
 package com.example.LeeGamja.dto.boardDto;
 
 import com.example.LeeGamja.entity.BoardListEntity;
-import com.example.LeeGamja.entity.CommentEntity;
 import com.example.LeeGamja.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,11 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardResponseDto {
+        private Long id;
         private String title;
         private String username;
         private String text;
         private UserEntity userEntity;
         public BoardResponseDto(BoardListEntity boardListEntity){
+                this.id = boardListEntity.getId();
                 this.title = boardListEntity.getTitle();
                 this.username = boardListEntity.getUsername();
                 this.text = boardListEntity.getText();

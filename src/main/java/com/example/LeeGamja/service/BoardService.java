@@ -29,24 +29,32 @@ public class BoardService {
 
     @Transactional
     public List<BoardResponseDto> readAll() { // 전체 불러오기
-        List<BoardListEntity> boardListEntities = boardRepository.findAll();
-        List<BoardResponseDto> boardResponseDtos = new ArrayList<>();
+        List<BoardListEntity> entityList = boardRepository.findAllWithBoardListEntityUsingJoin();
+        List<BoardResponseDto> dtoList = new ArrayList<>();
+        for (BoardListEntity boardListEntity : entityList){
+            dtoList.add(new BoardResponseDto(boardListEntity));
+        }
+        dtoList.get(1);
+        return dtoList;
 
-        //List<BoardResponseDto> boardResponseDtoList = new List<>(List.of(boardListEntities));
-        return boardResponseDtos;
     }
 
     @Transactional
-    public List<BoardListEntity> myReadAll(String user) { // 전체 불러오기
-        UserEntity userEntity = userRepository.findByUserName(user);
+    public List<BoardResponseDto> myReadAll(String userName) { // 전체 불러오기
+        UserEntity userEntity = userRepository.findByUserName(userName);
         //접근권한 확인
-        if(userEntity ==null){throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");}
-        return boardRepository.findByUserEntity(userEntity);
+        if (userEntity ==null) {throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");}
+        List<BoardListEntity> entityList = boardRepository.findAllByUserEntity(userName);
+        List<BoardResponseDto> dtoList = new ArrayList<>();
+        for (BoardListEntity boardListEntity : entityList){
+            dtoList.add(new BoardResponseDto(boardListEntity));
+        }
+        return dtoList;
     }
     @Transactional
     public BoardListEntity oneRead(Long id){
-        BoardListEntity boardListEntity = boardRepository.findById(id).orElseThrow(
-                ()->{throw new NotFoundException(NONEXISTENT_BOARD_EXCEPTION,"E0041");});
+        BoardListEntity boardListEntity = boardRepository.findByBoardId(id);
+        if (boardListEntity == null){throw new NotFoundException(NONEXISTENT_BOARD_EXCEPTION,"E0041");}
 
         return boardListEntity;
     }
@@ -75,9 +83,7 @@ public class BoardService {
             throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");
         }
         boardRequestDto.setUserEntity(boardListEntity.getUserEntity());
-        boardRequestDto.setCommentEntity(boardListEntity.getCommentEntity());
         boardListEntity.transfer(boardRequestDto);
-        boardRepository.save(boardListEntity);
        return "수정 완료";
     }
 

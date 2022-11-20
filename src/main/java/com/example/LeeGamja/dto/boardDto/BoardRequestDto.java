@@ -1,5 +1,5 @@
 package com.example.LeeGamja.dto.boardDto;
-import com.example.LeeGamja.entity.CommentEntity;
+
 import com.example.LeeGamja.entity.UserEntity;
 import lombok.*;
 
@@ -14,6 +14,6 @@ public class BoardRequestDto {
         private String userName;
         private String text;
         private UserEntity userEntity;
-        private List<CommentEntity> commentEntity;
+        //private List<CommentEntity> commentEntity;
 }
 

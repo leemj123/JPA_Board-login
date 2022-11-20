@@ -1,3 +1,4 @@
+/*
 package com.example.LeeGamja.dto.commentDto;
 
 import lombok.Getter;
@@ -11,3 +12,4 @@ public class CommentRequestDto {
     private String userName;
     private String Text;
 }
+*/

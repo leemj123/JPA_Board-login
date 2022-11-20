@@ -1,3 +1,4 @@
+/*
 package com.example.LeeGamja.controller;
 
 import com.example.LeeGamja.dto.commentDto.CommentRequestDto;
@@ -18,3 +19,4 @@ public class CommentController {
         return commentService.add(id, user,commentRequestDto);
     }
 }
+*/
