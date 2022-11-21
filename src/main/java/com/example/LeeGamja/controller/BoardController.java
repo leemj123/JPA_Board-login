@@ -44,8 +44,8 @@ public class BoardController {
     }
     @GetMapping("/oneread/{id}")// 해당id 게시글 읽어오기
     public BoardResponseDto oneReadBoard(@PathVariable Long id){
-        BoardResponseDto boardResponseDto = new BoardResponseDto(boardService.oneRead(id));
-        return boardResponseDto;
+
+        return boardService.oneRead(id);
     }
     @PostMapping("/create")
     public void createBoard(@CookieValue(value = "userName",required = true) String userName, @RequestBody BoardRequestDto boardRequestDto){

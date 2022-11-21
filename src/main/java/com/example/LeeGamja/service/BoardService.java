@@ -6,7 +6,6 @@ import com.example.LeeGamja.entity.BoardListEntity;
 import com.example.LeeGamja.entity.UserEntity;
 import com.example.LeeGamja.error.exception.ForbiddenException;
 import com.example.LeeGamja.error.exception.NotFoundException;
-import com.example.LeeGamja.error.exception.UnAuthorizedException;
 import com.example.LeeGamja.repository.BoardRepository;
 import com.example.LeeGamja.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.LeeGamja.error.ErrorCode.*;
 
@@ -30,13 +30,11 @@ public class BoardService {
     @Transactional
     public List<BoardResponseDto> readAll() { // 전체 불러오기
         List<BoardListEntity> entityList = boardRepository.findAllWithBoardListEntityUsingJoin();
-        List<BoardResponseDto> dtoList = new ArrayList<>();
+        /*List<BoardResponseDto> dtoList = new ArrayList<>();
         for (BoardListEntity boardListEntity : entityList){
             dtoList.add(new BoardResponseDto(boardListEntity));
-        }
-        dtoList.get(1);
-        return dtoList;
-
+        }*/
+        return entityList.stream().map(BoardResponseDto::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -45,18 +43,18 @@ public class BoardService {
         //접근권한 확인
         if (userEntity ==null) {throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");}
         List<BoardListEntity> entityList = boardRepository.findAllByUserEntity(userName);
-        List<BoardResponseDto> dtoList = new ArrayList<>();
+        /*List<BoardResponseDto> dtoList = new ArrayList<>();
         for (BoardListEntity boardListEntity : entityList){
             dtoList.add(new BoardResponseDto(boardListEntity));
-        }
-        return dtoList;
+        }*/
+        return entityList.stream().map(BoardResponseDto::new).collect(Collectors.toList());
     }
     @Transactional
-    public BoardListEntity oneRead(Long id){
+    public BoardResponseDto oneRead(Long id){
         BoardListEntity boardListEntity = boardRepository.findByBoardId(id);
         if (boardListEntity == null){throw new NotFoundException(NONEXISTENT_BOARD_EXCEPTION,"E0041");}
-
-        return boardListEntity;
+        BoardResponseDto boardResponseDto = new BoardResponseDto(boardListEntity);
+        return boardResponseDto;
     }
 
     @Transactional
