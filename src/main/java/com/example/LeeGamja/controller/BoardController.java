@@ -70,6 +70,4 @@ public class BoardController {
         if (userName == null){throw new UnAuthorizedException(ACCESS_DENIED_EXCEPTION,"E0010");}
         boardService.deleteBoard(userName,id);
     }
-
-
 }
