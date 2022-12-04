@@ -30,8 +30,7 @@ public class BoardService {
     @Transactional
     public List<BoardResponseDto> readAll() { // 전체 불러오기
         List<BoardListEntity> entityList = boardRepository.findAllWithBoardListEntityUsingJoin();
-        List<BoardResponseDto> listDto = entityList.stream().map(BoardResponseDto::new).collect(Collectors.toList());
-        return listDto.stream().sorted().collect(Collectors.toList());
+        return entityList.stream().map(BoardResponseDto::new).sorted().collect(Collectors.toList());
     }
 
     @Transactional
@@ -40,8 +39,7 @@ public class BoardService {
         //접근권한 확인
         if (userEntity ==null) {throw new ForbiddenException(FORBIDDEN_EXCEPTION,"E0020");}
         List<BoardListEntity> entityList = boardRepository.findAllByUserEntity(userName);
-        List<BoardResponseDto> listDto = entityList.stream().map(BoardResponseDto::new).collect(Collectors.toList());
-        return listDto.stream().sorted().collect(Collectors.toList());
+        return entityList.stream().map(BoardResponseDto:: new).sorted().collect(Collectors.toList());
     }
     @Transactional
     public BoardResponseDto oneRead(Long id){

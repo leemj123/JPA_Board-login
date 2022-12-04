@@ -1,5 +1,5 @@
 # JPA Back_end 개발
-✅ jpa로 게시판, 로그인 구현하고 Postman으로 성공여부확인
+✅ jpa로 게시판, 로그인 With Postman
 
 ✅ 게시판 CRUD 구현
 
@@ -10,3 +10,5 @@
 ✅ 쿠키 값 난수화
 
 ✅ JPA 연관관계 Mapping (Board & User)
+
+
